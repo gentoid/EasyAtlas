@@ -1,14 +1,5 @@
 package ru.osm.dkiselev.atlasgenerator;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.text.DecimalFormat;
-import java.util.Arrays;
-
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-
 import org.odftoolkit.odfdom.dom.OdfContentDom;
 import org.odftoolkit.odfdom.dom.attribute.text.TextAnchorTypeAttribute;
 import org.odftoolkit.odfdom.dom.element.text.TextPElement;
@@ -16,12 +7,18 @@ import org.odftoolkit.odfdom.incubator.doc.draw.OdfDrawFrame;
 import org.odftoolkit.odfdom.incubator.doc.draw.OdfDrawImage;
 import org.odftoolkit.simple.TextDocument;
 import org.w3c.dom.Node;
-
+import ru.osm.dkiselev.atlasgenerator.OSMparser.XMLParser;
 import ru.osm.dkiselev.atlasgenerator.configs.Config;
 import ru.osm.dkiselev.atlasgenerator.configs.Config.ConfigurationException;
 import ru.osm.dkiselev.atlasgenerator.configs.Options;
 
-import com.beust.jcommander.ParameterException;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.text.DecimalFormat;
+import java.util.Arrays;
 
 @SuppressWarnings("deprecation")
 public class PrintAtlasWorkflow implements Workflow {
@@ -31,12 +28,15 @@ public class PrintAtlasWorkflow implements Workflow {
 		try {
 			
 			Config.load(args);
+
+			XMLParser parser = new XMLParser();
+			parser.parse();
 			
 			new PrintAtlasWorkflow().run();
 			
 		} catch (ConfigurationException e) {
 			Options.printUsage();
-		} catch (ParameterException e) {
+		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}
